@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <!-- <form id="test-form">
+        <input type="text" name="firstname" placeholder="firstname" id="fName">
+
+        <input type="text" name="lastname" placeholder="optional" id="lName">
+
+        <input type="text" name="email" placeholder="email" id="mail">
+    </form> -->
+
+    <!-- <div id="container"></div> -->
+
+</body>
+
+
+<script>
+
+    const formToJSON = (formID) => {
+        const form = document.getElementById(formID);
+
+        //getting all the form-inputs and coverting nodeList to an array
+        const allElements = Array.from(form.children);
+
+        //modeling data
+        const structureForm = allElements.reduce((accum, currValue) => {
+            accum.elements.push({
+                id: currValue.id,
+                type: currValue.type,
+                name: currValue.name,
+                placeholder: currValue.placeholder
+            })
+            return accum
+        }, { formID, elements: [] })
+
+        //converting data in JSON format
+        const jsonForm = JSON.stringify(structureForm);
+
+        return jsonForm;
+    }
+
+
+    const jsonToForm = (formJSON, targetDivID) => {
+        //1.getting div 2.creating form element 3.parsing JSON file
+        const targetedDiv = document.getElementById(targetDivID);
+        const formEL = document.createElement('form');
+        const form = JSON.parse(formJSON);
+
+        //appending input elememts to created form element
+        form.elements.map(e => {
+            let inputEL = document.createElement('input');
+            inputEL.id = e.id,
+                inputEL.type = e.type,
+                inputEL.name = e.name,
+                inputEL.placeholder = e.placeholder
+            formEL.append(inputEL)
+        })
+
+        //appending form to targeted div
+        formEL.id = form.formID;
+        targetedDiv.append(formEL)
+    }
+
+
+    //-----------------------for testing things out-----------------------------
+
+    // const output = formToJSON('test-form');
+    // console.log(output);
+    //comment out html before calling
+
+
+
+    // const formInJSONFormat = { "formID": "test2-form", "elements": [{ "id": "fName", "type": "text", "name": "firstname", "placeholder": "firstname" }, { "id": "lName", "type": "text", "name": "lastname", "placeholder": "optional" }, { "id": "mail", "type": "text", "name": "email", "placeholder": "email" }, { "id": "pNum", "type": "number", "name": "phoneNum", "placeholder": "phone" }, { "id": "pwd", "type": "password", "name": "pwd", "placeholder": "password" }] }
+
+    // jsonToForm(JSON.stringify(formInJSONFormat), 'container')
+
+
+
+</script>
+
+</html>
